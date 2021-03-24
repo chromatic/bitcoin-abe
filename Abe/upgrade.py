@@ -935,7 +935,7 @@ def drop_policy(store):
         "DROP TABLE policy"]:
         try:
             store.ddl(stmt)
-        except store.dbmodule.DatabaseError, e:
+        except store.dbmodule.DatabaseError as e:
             store.log.warning("Cleanup failed, ignoring: %s", stmt)
 
 def drop_magic(store):
@@ -944,7 +944,7 @@ def drop_magic(store):
         "DROP TABLE magic"]:
         try:
             store.ddl(stmt)
-        except store.dbmodule.DatabaseError, e:
+        except store.dbmodule.DatabaseError as e:
             store.log.warning("Cleanup failed, ignoring: %s", stmt)
 
 def add_chain_decimals(store):
@@ -1201,5 +1201,5 @@ def upgrade_schema(store):
     store.log.warning("Upgrade complete.")
 
 if __name__ == '__main__':
-    print "Run Abe with --upgrade added to the usual arguments."
+    print("Run Abe with --upgrade added to the usual arguments.")
     sys.exit(2)

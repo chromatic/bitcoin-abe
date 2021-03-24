@@ -2566,7 +2566,7 @@ store._ddl['txout_approx'],
 
                 store.flush()
 
-            except Exception, e:
+            except Exception as e:
                 store.log.exception("Failed to catch up %s", dircfg)
                 store.rollback()
 
@@ -2591,7 +2591,7 @@ store._ddl['txout_approx'],
                          else (line.strip(), True)
                          for line in open(conffile)
                          if line != "" and line[0] not in "#\r\n"])
-        except Exception, e:
+        except Exception as e:
             store.log.error("failed to load %s: %s", conffile, e)
             return False
 
@@ -2623,7 +2623,7 @@ store._ddl['txout_approx'],
         def get_blockhash(height):
             try:
                 return rpc("getblockhash", height)
-            except util.JsonrpcException, e:
+            except util.JsonrpcException as e:
                 if e.code in (-1, -5, -8):
                     # Block number out of range...
                     #  -1 is legacy code (pre-10.0), generic error
@@ -2639,7 +2639,7 @@ store._ddl['txout_approx'],
             try:
                 rpc_tx_hex = rpc("getrawtransaction", rpc_tx_hash)
 
-            except util.JsonrpcException, e:
+            except util.JsonrpcException as e:
                 if e.code != -5:  # -5: transaction not in index.
                     raise
                 if height != 0:
@@ -2736,9 +2736,9 @@ store._ddl['txout_approx'],
             # bitcoind connectivity.
             try:
                 next_hash = get_blockhash(height)
-            except util.JsonrpcException, e:
+            except util.JsonrpcException as e:
                 raise
-            except Exception, e:
+            except Exception as e:
                 # Connectivity failure.
                 store.log.error("RPC failed: %s", e)
                 return False
@@ -2782,11 +2782,11 @@ store._ddl['txout_approx'],
                     if rpc_hash:
                         height, rpc_hash = first_new_block(height, rpc_hash)
 
-        except util.JsonrpcMethodNotFound, e:
+        except util.JsonrpcMethodNotFound as e:
             store.log.error("bitcoind %s not supported", e.method)
             return False
 
-        except InvalidBlock, e:
+        except InvalidBlock as e:
             store.log.error("RPC data not understood: %s", e)
             return False
 
@@ -2804,7 +2804,7 @@ store._ddl['txout_approx'],
 
             try:
                 file = open(blkfile['name'], "rb")
-            except IOError, e:
+            except IOError as e:
                 # Early bitcoind used blk0001.dat to blk9999.dat.
                 # Now it uses blocks/blk00000.dat to blocks/blk99999.dat.
                 # Abe starts by assuming the former scheme.  If we don't
@@ -2837,12 +2837,12 @@ store._ddl['txout_approx'],
         def try_close_file(ds):
             try:
                 ds.close_file()
-            except Exception, e:
+            except Exception as e:
                 store.log.info("BCDataStream: close_file: %s", e)
 
         try:
             blkfile = open_blkfile(dircfg['blkfile_number'])
-        except IOError, e:
+        except IOError as e:
             store.log.warning("Skipping datadir %s: %s", dircfg['dirname'], e)
             return
 
@@ -2862,12 +2862,12 @@ store._ddl['txout_approx'],
                 # Try another file.
                 try:
                     next_blkfile = open_blkfile(dircfg['blkfile_number'] + 1)
-                except IOError, e:
+                except IOError as e:
                     if e.errno != errno.ENOENT:
                         raise
                     # No more block files.
                     return
-                except Exception, e:
+                except Exception as e:
                     if getattr(e, 'errno', None) == errno.ENOMEM:
                         # Assume 32-bit address space exhaustion.
                         store.log.warning(

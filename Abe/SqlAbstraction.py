@@ -899,7 +899,7 @@ class SqlAbstraction(object):
                   FROM %stest_1""" % (sql.prefix, sql.prefix))
             v1 = 2099999999999999
             v2 = 1234567890
-            v3 = 12345678901234567890L
+            v3 = 12345678901234567890
             sql.sql("INSERT INTO %stest_1 (test_id, i1, i2, i3)"
                     " VALUES (?, ?, ?, ?)" % sql.prefix,
                     (1, sql.intin(v1), v2, sql.intin(v3)))

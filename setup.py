@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-execfile("Abe/version.py")
+exec(open("Abe/version.py").read())
 
 setup(
     name         = "Abe",

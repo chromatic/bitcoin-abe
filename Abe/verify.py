@@ -506,7 +506,7 @@ def main(argv):
             'repair',
         ])
     except getopt.GetoptError as e:
-        print e.msg, "\n\n", cmdline.usage()
+        print(e.msg, "\n\n", cmdline.usage())
         return 1
 
     chains = None
@@ -538,11 +538,11 @@ def main(argv):
             chk.repair = True
 
     if args:
-        print "Extra argument: %s!\n\n" % args[0], cmdline.usage()
+        print("Extra argument: %s!\n\n" % args[0], cmdline.usage())
         return 1
 
     if True not in (chk.ckmerkle, chk.ckbti, chk.ckstats):
-        print "No checks selected!\n\n", cmdline.usage()
+        print("No checks selected!\n\n", cmdline.usage())
         return 1
 
 
@@ -596,5 +596,5 @@ if __name__ == '__main__':
     try:
         sys.exit(main(sys.argv[1:]))
     except KeyboardInterrupt:
-        print >>sys.stderr, "\rInterrupted!"
+        sys.stderr.write("\rInterrupted!")
         sys.exit(1)

@@ -255,7 +255,7 @@ class Abe:
             page['body'] = ['<p class="error">Sorry, ', env['SCRIPT_NAME'],
                             env['PATH_INFO'],
                             ' does not exist on this server.</p>']
-        except NoSuchChainError, e:
+        except NoSuchChainError as e:
             page['body'] += [
                 '<p class="error">'
                 'Sorry, I don\'t know about that chain!</p>\n']
@@ -1840,7 +1840,7 @@ def decode_script(script):
         return ''
     try:
         return deserialize.decode_script(script)
-    except KeyError, e:
+    except KeyError as e:
         return 'Nonstandard script'
 
 def b58hex(b58):
@@ -1905,11 +1905,11 @@ def serve(store):
             pass
         import urlparse
         parsed = urlparse.urlparse(args.query)
-        print abe({
+        print(abe({
                 'SCRIPT_NAME':  '',
                 'PATH_INFO':    parsed.path,
                 'QUERY_STRING': parsed.query
-                }, start_response)
+                }, start_response))
     elif args.host or args.port:
         # HTTP server.
         if args.host is None:
@@ -1952,7 +1952,7 @@ def process_is_alive(pid):
     try:
         os.kill(pid, 0)
         return True
-    except OSError, e:
+    except OSError as e:
         if e.errno == errno.EPERM:
             return True  # process exists, but we can't send it signals.
         if e.errno == errno.ESRCH:
@@ -2066,7 +2066,7 @@ def main(argv):
     if not argv:
         pass
     elif argv[0] in ('-h', '--help'):
-        print ("""Usage: python -m Abe.abe [-h] [--config=FILE] [--CONFIGVAR=VALUE]...
+        print("""Usage: python -m Abe.abe [-h] [--config=FILE] [--CONFIGVAR=VALUE]...
 
 A Bitcoin block chain browser.
 
@@ -2082,11 +2082,11 @@ All configuration variables may be given as command arguments.
 See abe.conf for commented examples.""")
         return 0
     elif argv[0] in ('-v', '--version'):
-        print ABE_APPNAME, ABE_VERSION
-        print "Schema version", DataStore.SCHEMA_VERSION
+        print(ABE_APPNAME, ABE_VERSION)
+        print("Schema version", DataStore.SCHEMA_VERSION)
         return 0
     elif argv[0] == '--print-htdocs-directory':
-        print find_htdocs()
+        print(find_htdocs())
         return 0
     else:
         sys.stderr.write(

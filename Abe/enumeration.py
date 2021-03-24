@@ -19,13 +19,13 @@ class Enumeration:
             if type(x) == types.TupleType:
                 x, i = x
             if type(x) != types.StringType:
-                raise EnumException, "enum name is not a string: " + x
+                raise EnumException("enum name is not a string: " + x)
             if type(i) != types.IntType:
-                raise EnumException, "enum value is not an integer: " + i
+                raise EnumException("enum value is not an integer: " + i)
             if x in uniqueNames:
-                raise EnumException, "enum name is not unique: " + x
+                raise EnumException("enum name is not unique: " + x)
             if i in uniqueValues:
-                raise EnumException, "enum value is not unique for " + x
+                raise EnumException("enum value is not unique for " + x)
             uniqueNames.append(x)
             uniqueValues.append(i)
             lookup[x] = i

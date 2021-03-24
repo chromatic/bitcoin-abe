@@ -179,7 +179,7 @@ class CmdLine(object):
 
         args, argv = readconf.parse_argv(self.argv, self.conf, strict=False)
         if argv and argv[0] in ('-h', '--help'):
-            print self.usage()
+            print(self.usage())
             return None, []
 
         logging.basicConfig(
